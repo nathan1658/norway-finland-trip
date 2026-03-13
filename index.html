@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Norway + Finland Trip · 14–29 Mar 2026</title>
+<style>
+  :root {
+    --oslo:     #1a3a5c;
+    --lofoten:  #1a6b5a;
+    --tromso:   #4b2d7f;
+    --rovaniemi:#b5361c;
+    --levi:     #1a4f8a;
+    --helsinki: #1c4e6e;
+    --bg:       #0d1117;
+    --card:     #161b22;
+    --border:   #30363d;
+    --text:     #e6edf3;
+    --muted:    #8b949e;
+    --accent:   #58a6ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── AURORA HEADER ── */
+  .hero {
+    background: linear-gradient(160deg, #0d1117 0%, #0f2027 40%, #1a0533 70%, #0d1117 100%);
+    padding: 48px 24px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 40% at 20% 60%, rgba(0,255,150,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 30% at 80% 40%, rgba(100,0,255,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 25% at 50% 80%, rgba(0,180,255,0.07) 0%, transparent 60%);
+    animation: aurora 8s ease-in-out infinite alternate;
+  }
+  @keyframes aurora {
+    0%   { opacity: 0.6; transform: translateY(0) scaleX(1); }
+    50%  { opacity: 1;   transform: translateY(-8px) scaleX(1.05); }
+    100% { opacity: 0.7; transform: translateY(4px) scaleX(0.98); }
+  }
+  .hero h1 {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    position: relative;
+  }
+  .hero h1 span { color: #7ee8a2; }
+  .hero .subtitle {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 1rem;
+    position: relative;
+  }
+  .dest-badges {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 8px; margin-top: 20px; position: relative;
+  }
+  .badge {
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.3px;
+    cursor: pointer; transition: opacity 0.2s, transform 0.2s;
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+  .badge:hover { opacity: 0.85; transform: translateY(-1px); }
+  .badge.oslo     { background: var(--oslo); }
+  .badge.lofoten  { background: var(--lofoten); }
+  .badge.tromso   { background: var(--tromso); }
+  .badge.rovaniemi{ background: var(--rovaniemi); }
+  .badge.levi     { background: var(--levi); }
+  .badge.helsinki { background: var(--helsinki); }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    display: flex; overflow-x: auto; gap: 4px;
+    padding: 12px 16px; background: var(--card);
+    border-bottom: 1px solid var(--border);
+    scrollbar-width: none; position: sticky; top: 0; z-index: 100;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex-shrink: 0; padding: 7px 16px; border-radius: 8px;
+    border: 1px solid var(--border); background: transparent;
+    color: var(--muted); font-size: 0.82rem; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .tab-btn:hover, .tab-btn.active {
+    color: var(--text); border-color: transparent;
+  }
+  .tab-btn.active { background: var(--accent); color: #0d1117; }
+
+  /* ── MAIN LAYOUT ── */
+  .main { max-width: 960px; margin: 0 auto; padding: 24px 16px 60px; }
+
+  /* ── SECTION HEADERS ── */
+  .section { margin-bottom: 12px; display: none; }
+  .section.active { display: block; }
+  .section-title {
+    font-size: 1.3rem; font-weight: 700; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-title .dot {
+    width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+  }
+
+  /* ── DAY CARD ── */
+  .day-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; margin-bottom: 12px; overflow: hidden;
+  }
+  .day-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .day-header:hover { background: rgba(255,255,255,0.03); }
+  .day-num {
+    width: 40px; height: 40px; border-radius: 8px;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; flex-shrink: 0;
+    font-weight: 800; font-size: 0.95rem; line-height: 1.1;
+  }
+  .day-num .month { font-size: 0.6rem; font-weight: 500; opacity: 0.8; }
+  .day-info { flex: 1; }
+  .day-info .date-label { font-weight: 700; font-size: 1rem; }
+  .day-info .day-sub { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+  .chevron { transition: transform 0.25s; color: var(--muted); font-size: 0.9rem; }
+  .day-card.open .chevron { transform: rotate(180deg); }
+  .day-body { display: none; padding: 0 18px 18px; }
+  .day-card.open .day-body { display: block; }
+
+  /* ── BLOCKS INSIDE DAY ── */
+  .block { margin-top: 14px; }
+  .block-label {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.8px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .block-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* ── FLIGHT CHIP ── */
+  .flight-chip {
+    background: linear-gradient(135deg, #0c2a4a, #1a3a5c);
+    border: 1px solid #2a4a6c;
+    border-radius: 10px; padding: 12px 16px;
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+  }
+  .flight-route {
+    display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1rem;
+  }
+  .flight-route .arrow { color: var(--muted); font-size: 0.85rem; }
+  .flight-meta { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+  .flight-ref {
+    margin-left: auto; background: rgba(88,166,255,0.15);
+    border: 1px solid rgba(88,166,255,0.3); border-radius: 6px;
+    padding: 4px 10px; font-size: 0.75rem; font-weight: 700;
+    color: var(--accent); white-space: nowrap;
+  }
+
+  /* ── HOTEL CHIP ── */
+  .hotel-chip {
+    border-radius: 10px; padding: 12px 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .hotel-name { font-weight: 700; font-size: 0.95rem; }
+  .hotel-meta { font-size: 0.8rem; color: var(--muted); margin-top: 3px; line-height: 1.5; }
+  .hotel-nearby { margin-top: 10px; }
+  .hotel-nearby .nearby-title { font-size: 0.75rem; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+  .nearby-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+  .nearby-tag {
+    font-size: 0.75rem; padding: 3px 9px; border-radius: 12px;
+    background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+  }
+  .nearby-tag.🚌 { border-color: #2a4a6c; background: rgba(26,58,92,0.4); }
+  .nearby-tag.🍽 { border-color: #3a2a0c; background: rgba(92,58,26,0.4); }
+  .nearby-tag.🏛 { border-color: #1a3a2a; background: rgba(26,92,58,0.4); }
+
+  /* ── ACTIVITY PILLS ── */
+  .activity-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .activity-pill {
+    font-size: 0.8rem; padding: 6px 12px; border-radius: 8px;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .activity-pill a { color: var(--accent); text-decoration: none; }
+  .activity-pill a:hover { text-decoration: underline; }
+
+  /* ── RESTAURANT LIST ── */
+  .resto-list { display: flex; flex-direction: column; gap: 6px; }
+  .resto-item {
+    font-size: 0.82rem; padding: 8px 12px; border-radius: 8px;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .resto-item .meal { font-size: 0.7rem; color: var(--muted); min-width: 65px; }
+
+  /* ── CAR RENTAL ── */
+  .car-chip {
+    background: linear-gradient(135deg, #1a2e1a, #1f3f1f);
+    border: 1px solid #2a4a2a; border-radius: 10px; padding: 12px 16px;
+  }
+  .car-name { font-weight: 700; font-size: 0.95rem; }
+  .car-meta { font-size: 0.8rem; color: var(--muted); margin-top: 3px; line-height: 1.6; }
+
+  /* ── TRANSPORT CHIP ── */
+  .transport-chip {
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 14px;
+    font-size: 0.82rem; display: flex; align-items: center; gap: 10px;
+  }
+  .transport-chip .tc-icon { font-size: 1.2rem; }
+
+  /* ── NOTE BLOCK ── */
+  .note {
+    background: rgba(255,200,50,0.07); border: 1px solid rgba(255,200,50,0.2);
+    border-radius: 8px; padding: 10px 14px; font-size: 0.82rem;
+    color: #ffd97d; line-height: 1.6;
+  }
+
+  /* ── SUMMARY TAB ── */
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 12px; }
+  .sum-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+  }
+  .sum-card h3 { font-size: 0.85rem; color: var(--muted); font-weight: 600; margin-bottom: 12px; }
+  .sum-row { display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 6px; align-items: flex-start; gap: 8px; }
+  .sum-row .sr-label { color: var(--muted); }
+  .sum-row .sr-val { font-weight: 600; text-align: right; }
+  .sum-row .sr-ref { font-size: 0.72rem; color: var(--accent); }
+
+  /* ── TIPS ── */
+  .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 12px; margin-top: 0; }
+  .tip-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+  }
+  .tip-card h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 8px; }
+  .tip-card p, .tip-card li { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+  .tip-card ul { padding-left: 16px; }
+  .tip-card a { color: var(--accent); }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .flight-chip { flex-direction: column; }
+    .flight-ref { margin-left: 0; }
+    .summary-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>🇳🇴 Norway <span>&amp;</span> Finland 🇫🇮</h1>
+  <div class="subtitle">14 March – 29 March 2026 &nbsp;·&nbsp; Harry &amp; Annie</div>
+  <div class="dest-badges">
+    <span class="badge oslo"     onclick="switchTab('oslo')">🏙 Oslo</span>
+    <span class="badge lofoten"  onclick="switchTab('lofoten')">🏝 Lofoten</span>
+    <span class="badge tromso"   onclick="switchTab('tromso')">🌌 Tromsø</span>
+    <span class="badge rovaniemi"onclick="switchTab('rovaniemi')">🎅 Rovaniemi</span>
+    <span class="badge levi"     onclick="switchTab('levi')">⛷ Levi</span>
+    <span class="badge helsinki" onclick="switchTab('helsinki')">🏛 Helsinki</span>
+  </div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav-tabs">
+  <button class="tab-btn active" onclick="switchTab('all')">📅 All Days</button>
+  <button class="tab-btn" onclick="switchTab('oslo')">🏙 Oslo</button>
+  <button class="tab-btn" onclick="switchTab('lofoten')">🏝 Lofoten</button>
+  <button class="tab-btn" onclick="switchTab('tromso')">🌌 Tromsø</button>
+  <button class="tab-btn" onclick="switchTab('rovaniemi')">🎅 Rovaniemi</button>
+  <button class="tab-btn" onclick="switchTab('levi')">⛷ Levi</button>
+  <button class="tab-btn" onclick="switchTab('helsinki')">🏛 Helsinki</button>
+  <button class="tab-btn" onclick="switchTab('bookings')">🗂 Bookings</button>
+  <button class="tab-btn" onclick="switchTab('tips')">💡 Tips</button>
+</div>
+
+<div class="main">
+
+<!-- ══════════════ ALL / TIMELINE ══════════════ -->
+<div id="sec-all" class="section active">
+
+  <!-- DAY 13/3 – Departure -->
+  <div class="day-card" data-dest="flight" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num" style="background:#222;color:#aaa;">
+        <span>13</span><span class="month">MAR</span>
+      </div>
+      <div class="day-info">
+        <div class="date-label">Saturday 13 Mar — Departure from HKG</div>
+        <div class="day-sub">✈️ HKG → ZRH → OSL</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block">
+        <div class="block-label">✈️ Flights</div>
+        <div class="flight-chip" style="margin-bottom:8px;">
+          <div>
+            <div class="flight-route">HKG <span class="arrow">──▶</span> ZRH</div>
+            <div class="flight-meta">LX139 &nbsp;|&nbsp; 23:30 → 06:10+1 &nbsp;|&nbsp; Swiss Air</div>
+          </div>
+        </div>
+        <div class="flight-chip">
+          <div>
+            <div class="flight-route">ZRH <span class="arrow">──▶</span> OSL</div>
+            <div class="flight-meta">LX1210 &nbsp;|&nbsp; 09:40 → 12:10 14 Mar &nbsp;|&nbsp; Swiss Air</div>
+          </div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="note">💡 Depart HKG late night. Arrive Zurich next morning, then connect to Oslo arriving 12:10 on 14 Mar.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 14/3 – Oslo arrives -->
+  <div class="day-card" data-dest="oslo" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num" style="background:var(--oslo);">
+        <span>14</span><span class="month">MAR</span>
+      </div>
+      <div class="day-info">
+        <div class="date-label">Sunday 14 Mar — Arrive Oslo</div>
+        <div class="day-sub">🏙 Oslo · Scandic Byporten check-in</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block">
+        <div class="block-label">🏨 Hotel</div>
+        <div class="hotel-chip" style="background:linear-gradient(135deg,#0c1e30,#1a3a5c20);border-color:#2a4a6c;">
+          <div class="hotel-name">Scandic Byporten</div>
+          <div class="hotel-meta">Annie · Agoda &nbsp;|&nbsp; HKD $2,345.68 &nbsp;|&nbsp; Check-in: 14 Mar · Check-out: 16 Mar</div>
+          <div class="hotel-nearby">
+            <div class="nearby-title">📍 HOTEL HIGHLIGHTS</div>
+            <div class="nearby-grid">
+              <span class="nearby-tag">🚉 Right next to Oslo Central Station</span>
+              <span class="nearby-tag">🛍 Byporten Shopping Mall attached</span>
+              <span class="nearby-tag">🚌 Jernbanetorget tram/bus hub 300m</span>
+              <span class="nearby-tag">🎭 Oslo Opera House 6 min walk</span>
+              <span class="nearby-tag">🏰 Akershus Fortress 12 min walk</span>
+              <span class="nearby-tag">✈️ Airport Express (Flytoget) 20 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">🗺 Activities</div>
+        <div class="activity-list">
+          <div class="activity-pill">🏰 Akershus Fortress (阿克斯胡斯城堡)</div>
+          <div class="activity-pill">📚 Deichman Bjørvika Library (奧斯陸戴希曼圖書館)</div>
+          <div class="activity-pill">🎨 Munch Museum</div>
+          <div class="activity-pill">🛒 Mathallen Market</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">🍽 Dining</div>
+        <div class="resto-list">
+          <div class="resto-item"><span class="meal">🥗 Lunch/Snack</span> <a href="https://maps.app.goo.gl/mathallen" target="_blank" style="color:var(--accent)">Mathallen Market</a> — Oslo's famous food hall</div>
+          <div class="resto-item"><span class="meal">🐟 Dinner</span> <strong>The Salmon</strong> — Norwegian salmon restaurant</div>
+          <div class="resto-item"><span class="meal">🥒 Late Dinner</span> <strong>The Little Pickle</strong> — cocktail bar & brasserie</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 15/3 – Oslo day 2 -->
+  <div class="day-card" data-dest="oslo" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num" style="background:var(--oslo);">
+        <span>15</span><span class="month">MAR</span>
+      </div>
+      <div class="day-info">
+        <div class="date-label">Monday 15 Mar — Oslo Explore</div>
+        <div class="day-sub">🏙 National Museum · Sognsvann Lake · Coffee</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block">
+        <div class="block-label">🍽 Morning</div>
+        <div class="resto-list">
+          <div class="resto-item"><span class="meal">🥐 Breakfast</span> <strong>Kveitemjøl Bakery</strong> — local artisan bakery</div>
+          <div class="resto-item"><span class="meal">☕ Coffee</span> <strong>Tim Wendelboe</strong> — world-famous specialty coffee</div>
+          <div class="resto-item"><span class="meal">☕ Alt.</span> <strong>Farine</strong> — French-style bakery & coffee</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">🗺 Activities</div>
+        <div class="activity-list">
+          <div class="activity-pill">🚃 Tram Line 6 → Sognsvann Lake (終點站) — scenic forest walk</div>
+          <div class="activity-pill">🖼 The National Museum of Norway</div>
+          <div class="activity-pill">🚶 Karl Johans Gate stroll</div>
+          <div class="activity-pill">🏛 Grünerløkka neighbourhood</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">🚌 Transport Tips</div>
+        <div class="transport-chip">
+          <span class="tc-icon">🚃</span>
+          <span>Take Tram Line 6 from city centre all the way to <strong>Sognsvann</strong> (end of line, ~35 min). Beautiful forest trailhead around the lake.</span>
+        </div>
+      </div>
+      <div class="note">💡 <strong>Prep for early flight tomorrow:</strong> Pack tonight. Airport Express (Flytoget) departs from Oslo S (next to hotel) every 10 min. Journey 20 min. Allow 2hrs before 08:55 flight.</div>
+    </div>
+  </div>
+
+  <!-- DAY 16/3 – Fly to Lofoten -->
+  <div class="day-card" data-dest="lofoten" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num" style="background:var(--lofoten);">
+        <span>16</span><span class="month">MAR</span>
+      </div>
+      <div class="day-info">
+        <div class="date-label">Tuesday 16 Mar — Fly to Lofoten</div>
+        <div class="day-sub">✈️ OSL → EVE · Rental car pickup · M&amp;R Apartment</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block">
+        <div class="block-label">🚆 To Airport</div>
+        <div class="transport-chip">
+          <span class="tc-icon">🚂</span>
+          <span>Airport Express (Flytoget) from <strong>Oslo S</strong> (next to hotel) → Oslo Airport in <strong>20 min</strong>. Depart by ~06:30 for 08:55 flight.</span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">✈️ Flight</div>
+        <div class="flight-chip">
+          <div>
+            <div class="flight-route">OSL <span class="arrow">──▶</span> EVE (Evenes/Harstad-Narvik)</div>
+            <div class="flight-meta">08:55 → 10:35 &nbsp;|&nbsp; ~2hrs &nbsp;|&nbsp; 10kg carry-on + 23kg checked</div>
+          </div>
+          <div class="flight-ref">Ref: ZQNK6R &nbsp;NOK 3,166/2</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">🚗 Car Rental</div>
+        <div class="car-chip">
+          <div class="car-name">🚙 Toyota Corolla Cross (or similar) — Pickup at EVE Airport</div>
+          <div class="car-meta">
+            Rentalcars.com &nbsp;·&nbsp; Ref: <strong>746310730</strong> &nbsp;·&nbsp; HKD $3,568 incl. full insurance<br>
+            Free cancellation up to <strong>48hrs before pickup</strong>
+          </div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">🏨 Hotel</div>
+        <div class="hotel-chip" style="background:linear-gradient(135deg,#0c2a1e,#1a6b5a20);border-color:#2a5a3a;">
+          <div class="hotel-name">M&amp;R Lofoten Apartment (Svolvær area)</div>
+          <div class="hotel-meta">Annie · Agoda &nbsp;|&nbsp; HKD $2,420.89 &nbsp;|&nbsp; 16–18 Mar (2 nights)</div>
+          <div class="hotel-nearby">
+            <div class="nearby-title">📍 LOFOTEN BASE — SVOLVAER</div>
+            <div class="nearby-grid">
+              <span class="nearby-tag">🏔 Svolværgeita mountain views</span>
+              <span class="nearby-tag">🎨 Svolværs marina &amp; fishing village</span>
+              <span class="nearby-tag">🧊 Magic Ice Bar Lofoten</span>
+              <span class="nearby-tag">🏛 Lofoten War Museum</span>
+              <span class="nearby-tag">⛽ Most services available in Svolvær</span>
+              <span class="nearby-tag">🐟 Anita's Sjømat (2hr drive south)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 17/3 – Lofoten drive -->
+  <div class="day-card" data-dest="lofoten" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num" style="background:var(--lofoten);">
+        <span>17</span><span class="month">MAR</span>
+      </div>
+      <div class="day-info">
+        <div class="date-label">Wednesday 17 Mar — Explore Lofoten</div>
+        <div class="day-sub">🚗 Svolvær → Henningsvær → scenic drive</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block">
+        <div class="block-label">🗺 Suggested Route</div>
+        <div class="transport-chip" style="margin-bottom:8px;">
+          <span class="tc-icon">🚗</span>
+          <span><strong>Svolvær → Henningsvær</strong> (~25 min drive) — World's most beautiful football pitch surrounded by fjords &amp; mountains</span>
+        </div>
+        <div class="transport-chip">
+          <span class="tc-icon">🗺</span>
+          <a href="https://www.google.com/maps/d/u/0/viewer?mid=1IxEwEECW4YzNSAqKfBWmCdKf6ozvS2c" target="_blank" style="color:var(--accent)">Open Lofoten custom map (saved in your doc)</a>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">⭐ Must-See in Henningsvær (海寧斯韋爾)</div>
+        <div class="activity-list">
+          <div class="activity-pill">⚽ World's Most Beautiful Football Pitch (fjord backdrop)</div>
+          <div class="activity-pill">🗼 Henningsvær Lighthouse walk</div>
+          <div class="activity-pill">☕ Café hopping in the village</div>
+          <div class="activity-pill">📸 Fishing racks &amp; red cabins (rorbuer)</div>
+          <div class="activity-pill">🦅 Eagle safari possibilities</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">🍽 Dining</div>
+        <div class="resto-list">
+          <div class="resto-item"><span class="meal">🦐 Lunch/Dinner</span> <a href="https://maps.app.goo.gl/1jKX7RFypxmsEceT9" target="_blank" style="color:var(--accent)">Anita's Sjømat</a> — legendary fresh seafood shack, ~2hr drive south in Å</div>
+          <div class="resto-item"><span class="meal">☕ Coffee</span> <strong>Kræmmervika Restaurant</strong> (Henningsvær) — scenic fjord views</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="note">💡 The Lofoten islands are best explored slowly by car. Roads E10 connect all major villages. Road conditions in March may include snow — drive carefully. Full insurance is included in your rental.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 18/3 – Fly to Tromsø -->
+  <div class="day-card" data-dest="tromso" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num" style="background:var(--tromso);">
+        <span>18</span><span class="month">MAR</span>
+      </div>
+      <div class="day-info">
+        <div class="date-label">Thursday 18 Mar — Fly to Tromsø</div>
+        <div class="day-sub">✈️ EVE → ANX → TOS · Vervet check-in</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block">
+        <div class="block-label">✈️ Flight</div>
+        <div class="flight-chip">
+          <div>
+            <div class="flight-route">EVE <span class="arrow">──▶</span> ANX <span class="arrow">──▶</span> TOS</div>
+            <div class="flight-meta">14:40 → 15:05 (ANX) → 15:25 → 16:00 (TOS) &nbsp;|&nbsp; 2 legs &nbsp;|&nbsp; 23kg x2</div>
+          </div>
+          <div class="flight-ref">Ref: X8OA2L &nbsp;NOK 1,696/2</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="note">⏰ Return rental car at EVE Airport before 14:40 flight. Allow time for fuel top-up &amp; drop-off.</div>
+      </div>
+      <div class="block">
+        <div class="block-label">🏨 Hotel</div>
+        <div class="hotel-chip" style="background:linear-gradient(135deg,#1a0d33,#4b2d7f20);border-color:#5a3a9a;">
+          <div class="hotel-name">Tromsø City Center Vervet</div>
+          <div class="hotel-meta">Annie · Agoda &nbsp;|&nbsp; HKD $4,358.31 &nbsp;|&nbsp; 18–21 Mar (3 nights)</div>
+          <div class="hotel-nearby">
+            <div class="nearby-title">📍 CITY CENTER — WALKING DISTANCE</div>
+            <div class="nearby-grid">
+              <span class="nearby-tag">⛪ Tromsø Cathedral (2 min)</span>
+              <span class="nearby-tag">🌊 Tromsø Harbour (5 min)</span>
+              <span class="nearby-tag">📚 Tromsø City Library (5 min)</span>
+              <span class="nearby-tag">🐻 Polaria Arctic Experience Centre</span>
+              <span class="nearby-tag">🏛 The Polar Museum</span>
+              <span class="nearby-tag">🍔 Northernmost McDonald's 🍟</span>
+              <span class="nearby-tag">🚌 Bus to Arctic Cathedral (Bus 20/26)</span>
+              <span class="nearby-tag">🚡 Bus to Fjellheisen Cable Car (Bus 26)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 19/3 – Tromsø activities -->
+  <div class="day-card" data-dest="tromso" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num" style="background:var(--tromso);">
+        <span>19</span><span class="month">MAR</span>
+      </div>
+      <div class="day-info">
+        <div class="date-label">Friday 19 Mar — Tromsø Adventures</div>
+        <div class="day-sub">🐋 Whale watching · 🏔 Fjellheisen · 🌌 Aurora</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block">
+        <div class="block-label">🗺 Activities (Book in Advance!)</div>
+        <div class="activity-list">
+          <div class="activity-pill">🐋 Whale Watching tour — book via local operators</div>
+          <div class="activity-pill"><a href="https://booking.bestarctic.com/en/to-do/2438667/snowmobile-safari-with-transfers-from-troms%C3%B8/showdetails?filter=a_0%3D0-588%3Bc%3D31189%3Bg%3D104503%2C104502" target="_blank">🏍 Snowmobile Safari with transfers</a></div>
+          <div class="activity-pill">🐕 Dog Sledding</div>
+          <div class="activity-pill">🏕 Sami Camp experience</div>
+          <div class="activity-pill"><a href="https://booking.tromsoicedomes.com/en/packages" target="_blank">🧊 Tromsø Ice Dome packages</a></div>
+          <div class="activity-pill"><a href="https://www.polaradventures.no/tours" target="_blank">🌟 Polar Adventures tours</a></div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">🌌 Aurora Chasing Tonight</div>
+        <div class="activity-list">
+          <div class="activity-pill">📍 Telegrafbukta beach (bus, away from city lights)</div>
+          <div class="activity-pill">📍 Prestvannet lake (peaceful, clear sky)</div>
+          <div class="activity-pill">📱 App: My Aurora Forecast &amp; Alerts</div>
+          <div class="activity-pill">📱 App: Northern Lights Photo Taker</div>
+          <div class="activity-pill">📱 NOAA Aurora 30-min Forecast map</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 20/3 – Tromsø city walk -->
+  <div class="day-card" data-dest="tromso" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num" style="background:var(--tromso);">
+        <span>20</span><span class="month">MAR</span>
+      </div>
+      <div class="day-info">
+        <div class="date-label">Saturday 20 Mar — Tromsø City Walk</div>
+        <div class="day-sub">⛪ Arctic Cathedral · 🚡 Fjellheisen Cable Car · 🏛 Museums</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block">
+        <div class="block-label">🗺 Citywalk Route (Walking)</div>
+        <div class="activity-list">
+          <div class="activity-pill">1️⃣ Scandic Ishavshotel bus stop (start point)</div>
+          <div class="activity-pill">2️⃣ ⛪ Tromsø Cathedral</div>
+          <div class="activity-pill">3️⃣ 🐧 Polaria Arctic Experience</div>
+          <div class="activity-pill">4️⃣ 🌿 Grønnegata street</div>
+          <div class="activity-pill">5️⃣ 🛍 Storgata (main shopping street)</div>
+          <div class="activity-pill">6️⃣ 📚 Tromsø City Library &amp; Archive</div>
+          <div class="activity-pill">7️⃣ ⚓ Tromsø Havn (Harbour)</div>
+          <div class="activity-pill">8️⃣ 🏛 The Polar Museum</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">🚌 By Bus (short ride)</div>
+        <div class="activity-list">
+          <div class="activity-pill">🚌 Bus 20/26 → ⛪ Arctic Cathedral (Ishavskatedralen)</div>
+          <div class="activity-pill">🚌 Bus 26 → 🚡 Fjellheisen Cable Car → panoramic city views</div>
+          <div class="activity-pill">🚌 Bus → 📍 Telegrafbukta or Prestvannet (aurora spot)</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="note">💡 <strong>Prep for tomorrow's early flight:</strong> TOS → RVN departs 10:10. Take airport bus from city centre (~30–45 min). Pack tonight!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 21/3 – Fly to Rovaniemi -->
+  <div class="day-card" data-dest="rovaniemi" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num" style="background:var(--rovaniemi);">
+        <span>21</span><span class="month">MAR</span>
+      </div>
+      <div class="day-info">
+        <div class="date-label">Sunday 21 Mar — Fly to Rovaniemi</div>
+        <div class="day-sub">✈️ TOS → RVN · Aurora Hill Resort check-in</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block">
+        <div class="block-label">✈️ Flight</div>
+        <div class="flight-chip">
+          <div>
+            <div class="flight-route">TOS <span class="arrow">──▶</span> RVN</div>
+            <div class="flight-meta">10:10 → 12:20 (+1hr time lag Norway→Finland) &nbsp;|&nbsp; ~1hr &nbsp;|&nbsp; 23kg + 8kg carry-on</div>
+          </div>
+          <div class="flight-ref">Ref: 9VUXZA &nbsp;NOK 4,020/2</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="note">⏰ <strong>Time Zone Change:</strong> Finland (EET) is 1 hour ahead of Norway (CET). Depart 10:10 Tromsø time, arrive 12:20 Rovaniemi time.</div>
+      </div>
+      <div class="block">
+        <div class="block-label">🏨 Hotel</div>
+        <div class="hotel-chip" style="background:linear-gradient(135deg,#2a0c0c,#b5361c20);border-color:#8a2a1a;">
+          <div class="hotel-name">🌟 Aurora Hill Resort</div>
+          <div class="hotel-meta">Annie · Agoda &nbsp;|&nbsp; Ref: <strong>1696368486</strong> &nbsp;|&nbsp; VISA: HKD $3,353.97 &nbsp;|&nbsp; 21 Mar (1 night)<br>Glass igloo / Aurora cabin stay!</div>
+          <div class="hotel-nearby">
+            <div class="nearby-title">📍 AURORA HILL RESORT — HIGHLIGHTS</div>
+            <div class="nearby-grid">
+              <span class="nearby-tag">🎅 Santa Claus Village ~11km away</span>
+              <span class="nearby-tag">✈️ Rovaniemi Airport ~5km</span>
+              <span class="nearby-tag">🌌 Highest resort in Rovaniemi — best aurora views!</span>
+              <span class="nearby-tag">🎿 Santa Park 9.9km</span>
+              <span class="nearby-tag">🚌 Bus #8 or Santa Claus Bus to Village</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">🗺 Afternoon Activities</div>
+        <div class="activity-list">
+          <div class="activity-pill">🎅 <a href="https://www.visitrovaniemi.fi/see-do/activities/" target="_blank">Santa Claus Village</a></div>
+          <div class="activity-pill">🦌 Ranua Wildlife Park</div>
+          <div class="activity-pill">🧊 Glass igloo / Aurora cabin (at resort)</div>
+          <div class="activity-pill">🌌 Aurora from resort hilltop tonight</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 22/3 – Bus to Levi -->
+  <div class="day-card" data-dest="levi" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num" style="background:var(--levi);">
+        <span>22</span><span class="month">MAR</span>
+      </div>
+      <div class="day-info">
+        <div class="date-label">Monday 22 Mar — Bus to Levi Ski Resort</div>
+        <div class="day-sub">🚌 Rovaniemi → Levi · Hotel Hullu Poro check-in</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block">
+        <div class="block-label">🚌 Bus</div>
+        <div class="transport-chip">
+          <span class="tc-icon">🚌</span>
+          <span>
+            <strong>09:15</strong> Rovaniemi Bus Station → <strong>11:20</strong> Levi<br>
+            Matkahuolto &nbsp;|&nbsp; Ref: <strong>8145547</strong> &nbsp;|&nbsp; ~2.5hrs
+          </span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">🏨 Hotel</div>
+        <div class="hotel-chip" style="background:linear-gradient(135deg,#0c1e30,#1a4f8a20);border-color:#2a4a7c;">
+          <div class="hotel-name">Hotel Hullu Poro (Crazy Reindeer) ⛷</div>
+          <div class="hotel-meta">Annie · Trip.com &nbsp;|&nbsp; HKD $2,658.61 × 2 nights &nbsp;|&nbsp; 22–24 Mar</div>
+          <div class="hotel-nearby">
+            <div class="nearby-title">📍 LEVI SKI RESORT — RIGHT ON THE SLOPES</div>
+            <div class="nearby-grid">
+              <span class="nearby-tag">⛷ Levi ski slopes at doorstep</span>
+              <span class="nearby-tag">🚡 Ski lifts direct access</span>
+              <span class="nearby-tag">🦌 Reindeer &amp; husky farms nearby</span>
+              <span class="nearby-tag">🧊 Levi Ice Gallery</span>
+              <span class="nearby-tag">❄️ Lapland Hotels Snow Village (nearby)</span>
+              <span class="nearby-tag">🎿 43 ski slopes, 27 lifts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">🗺 Activities Today</div>
+        <div class="activity-list">
+          <div class="activity-pill">⛷ <a href="https://www.levi.fi/en/ski/slopes-and-lifts/slope-map/" target="_blank">Levi Ski Resort — Slope Map</a></div>
+          <div class="activity-pill">🗺 <a href="https://www.levi.fi/en/activities/activity-search/" target="_blank">Browse all Levi activities</a></div>
+          <div class="activity-pill">❄️ <a href="https://maps.app.goo.gl/oB63qFxaU3eKcHq17" target="_blank">Lapland Hotels Snow Village</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 23/3 – Levi full day -->
+  <div class="day-card" data-dest="levi" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num" style="background:var(--levi);">
+        <span>23</span><span class="month">MAR</span>
+      </div>
+      <div class="day-info">
+        <div class="date-label">Tuesday 23 Mar — Full Day in Levi</div>
+        <div class="day-sub">⛷ Skiing · 🦌 Reindeer Farm · 🧊 Ice Fishing</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block">
+        <div class="block-label">⭐ Recommended Activities</div>
+        <div class="activity-list">
+          <div class="activity-pill">⛷ Full day skiing at Levi slopes</div>
+          <div class="activity-pill"><a href="https://www.levi.fi/en/activities/authentic-day-in-wilderness-village-reindeer-farm-visit-ice-fishing-experience-with-lunch/" target="_blank">🦌 Reindeer Farm + Ice Fishing + Wilderness Village (full day package)</a></div>
+          <div class="activity-pill">🐕 Husky safari</div>
+          <div class="activity-pill">🌌 Night aurora from fell top</div>
+          <div class="activity-pill">❄️ Lapland Hotels Snow Village</div>
+        </div>
+      </div>
+      <div class="note">💡 <strong>Prep for tomorrow:</strong> Bus departs 09:50 from Levi. Early start! Return rental ski equipment tonight.</div>
+    </div>
+  </div>
+
+  <!-- DAY 24/3 – Back to Rovaniemi -->
+  <div class="day-card" data-dest="rovaniemi" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num" style="background:var(--rovaniemi);">
+        <span>24</span><span class="month">MAR</span>
+      </div>
+      <div class="day-info">
+        <div class="date-label">Wednesday 24 Mar — Back to Rovaniemi</div>
+        <div class="day-sub">🚌 Levi → RVN · Forenom Apartments check-in</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block">
+        <div class="block-label">🚌 Bus</div>
+        <div class="transport-chip">
+          <span class="tc-icon">🚌</span>
+          <span>
+            <strong>09:50</strong> Levi → Rovaniemi &nbsp;|&nbsp; ~2.5 hrs &nbsp;|&nbsp; HKD $130–290/person<br>
+            <a href="https://liput.matkahuolto.fi/connectionlist?lang=en&departurePlaceId=p209&arrivalPlaceId=p472&departureDate=2026-03-24#breadcrumb" target="_blank" style="color:var(--accent)">🔗 Matkahuolto booking link</a>
+          </span>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">🏨 Hotel</div>
+        <div class="hotel-chip" style="background:linear-gradient(135deg,#2a0c0c,#b5361c20);border-color:#8a2a1a;">
+          <div class="hotel-name">Forenom Serviced Apartments Rovaniemi Valtakatu</div>
+          <div class="hotel-meta">Harry · Trip.com &nbsp;|&nbsp; ⚠️ Cannot cancel &nbsp;|&nbsp; 24–26 Mar<br>
+            <a href="https://www.trip.com/w/ATDbnnP2ST2" target="_blank" style="color:var(--accent)">🔗 Trip.com booking link</a>
+          </div>
+          <div class="hotel-nearby">
+            <div class="nearby-title">📍 CITY CENTRE ROVANIEMI</div>
+            <div class="nearby-grid">
+              <span class="nearby-tag">🏛 Arktikum Science Museum (10 min)</span>
+              <span class="nearby-tag">🌿 Pilke Science Centre</span>
+              <span class="nearby-tag">🛒 Rovaniemi Market Square</span>
+              <span class="nearby-tag">🍽 Nili Restaurant (Lappish food)</span>
+              <span class="nearby-tag">🎅 Bus to Santa Claus Village</span>
+              <span class="nearby-tag">🏃 Walking distance to city services</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">🗺 Afternoon</div>
+        <div class="activity-list">
+          <div class="activity-pill">🎅 Santa Claus Village revisit / shopping</div>
+          <div class="activity-pill">🏛 Arktikum Science Museum</div>
+          <div class="activity-pill">🌌 Aurora from city outskirts</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 25/3 – Rovaniemi activities -->
+  <div class="day-card" data-dest="rovaniemi" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num" style="background:var(--rovaniemi);">
+        <span>25</span><span class="month">MAR</span>
+      </div>
+      <div class="day-info">
+        <div class="date-label">Thursday 25 Mar — Rovaniemi Outdoors</div>
+        <div class="day-sub">🏔 Korouoma Frozen Waterfalls · 🦌 Wildlife</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block">
+        <div class="block-label">⭐ Highlight Activity</div>
+        <div class="activity-list">
+          <div class="activity-pill"><a href="https://www.visitrovaniemi.fi/activity-product/frozen-waterfalls-of-korouoma/#booking" target="_blank">🏔 Frozen Waterfalls of Korouoma — guided tour (book in advance!)</a></div>
+          <div class="activity-pill">🦌 Ranua Wildlife Park — Arctic animals</div>
+          <div class="activity-pill">🎅 Santa Claus Village — last chance!</div>
+          <div class="activity-pill"><a href="https://www.visitrovaniemi.fi/see-do/activities/" target="_blank">🔗 More Rovaniemi activities</a></div>
+        </div>
+      </div>
+      <div class="note">💡 <strong>Prep for tonight's late flight:</strong> RVN → HEL departs 21:45. Dinner in city, then head to airport. Forenom apartment checkout today.</div>
+    </div>
+  </div>
+
+  <!-- DAY 26/3 – Fly to Helsinki -->
+  <div class="day-card" data-dest="helsinki" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num" style="background:var(--helsinki);">
+        <span>26</span><span class="month">MAR</span>
+      </div>
+      <div class="day-info">
+        <div class="date-label">Friday 26 Mar — Fly to Helsinki</div>
+        <div class="day-sub">✈️ RVN → HEL (night flight) · Helsinki check-in</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block">
+        <div class="block-label">✈️ Flight</div>
+        <div class="flight-chip">
+          <div>
+            <div class="flight-route">RVN <span class="arrow">──▶</span> HEL</div>
+            <div class="flight-meta">21:45 → 23:05 &nbsp;|&nbsp; ~1hr 20min &nbsp;|&nbsp; 23kg + 8kg carry-on</div>
+          </div>
+          <div class="flight-ref">Ref: 7FKX23 &nbsp;€162.32/2</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label">🏨 Hotel</div>
+        <div class="hotel-chip" style="background:linear-gradient(135deg,#0c1e2a,#1c4e6e20);border-color:#2a5a7a;">
+          <div class="hotel-name">Helsinki Hotel (TBD)</div>
+          <div class="hotel-meta">⚠️ Not yet booked &nbsp;|&nbsp; 26–28 Mar (2 nights)</div>
+          <div class="hotel-nearby">
+            <div class="nearby-title">📍 RECOMMENDED AREAS TO STAY</div>
+            <div class="nearby-grid">
+              <span class="nearby-tag">🚂 Near Helsinki Central Station (easy airport access)</span>
+              <span class="nearby-tag">🏛 Design District (boutique area)</span>
+              <span class="nearby-tag">🌊 Eira (waterfront)</span>
+              <span class="nearby-tag">🚌 Airport Train (I) to city ~35 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 27/3 – Helsinki explore -->
+  <div class="day-card" data-dest="helsinki" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num" style="background:var(--helsinki);">
+        <span>27</span><span class="month">MAR</span>
+      </div>
+      <div class="day-info">
+        <div class="date-label">Saturday 27 Mar — Helsinki Free Day</div>
+        <div class="day-sub">🏛 Sightseeing · 🛍 Shopping · 🥐 Cafés</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block">
+        <div class="block-label">⭐ Suggested Helsinki Highlights</div>
+        <div class="activity-list">
+          <div class="activity-pill">⛪ Helsinki Cathedral &amp; Senate Square</div>
+          <div class="activity-pill">🏰 Suomenlinna Sea Fortress (ferry)</div>
+          <div class="activity-pill">🏛 Ateneum Art Museum</div>
+          <div class="activity-pill">🏬 Old Market Hall (Vanha Kauppahalli)</div>
+          <div class="activity-pill">🛍 Design District Helsinki</div>
+          <div class="activity-pill">🧖 Löyly sauna (waterfront)</div>
+          <div class="activity-pill">🍩 Fazer Café (Finnish chocolates)</div>
+        </div>
+      </div>
+      <div class="note">💡 <strong>Prep for tomorrow:</strong> HEL → FRA departs 17:55. Allow time to get to Helsinki Airport (Train I from Central Station, ~35 min).</div>
+    </div>
+  </div>
+
+  <!-- DAY 28/3 – Fly home -->
+  <div class="day-card" data-dest="flight" onclick="toggleDay(this)">
+    <div class="day-header">
+      <div class="day-num" style="background:#333;color:#aaa;">
+        <span>28</span><span class="month">MAR</span>
+      </div>
+      <div class="day-info">
+        <div class="date-label">Sunday 28 Mar — Fly Home to HKG</div>
+        <div class="day-sub">✈️ HEL → FRA → HKG</div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block">
+        <div class="block-label">✈️ Flights</div>
+        <div class="flight-chip" style="margin-bottom:8px;">
+          <div>
+            <div class="flight-route">HEL <span class="arrow">──▶</span> FRA</div>
+            <div class="flight-meta">LH851 &nbsp;|&nbsp; 17:55 → 19:40 &nbsp;|&nbsp; Lufthansa</div>
+          </div>
+        </div>
+        <div class="flight-chip">
+          <div>
+            <div class="flight-route">FRA <span class="arrow">──▶</span> HKG</div>
+            <div class="flight-meta">LH796 &nbsp;|&nbsp; 21:50 → 16:25+1 &nbsp;|&nbsp; Lufthansa</div>
+          </div>
+        </div>
+      </div>
+      <div class="note">🏠 Arrive back in Hong Kong on <strong>29 Mar</strong> at 16:25. What a trip!</div>
+    </div>
+  </div>
+
+</div><!-- end sec-all -->
+
+<!-- ══════════════ DESTINATION SECTIONS ══════════════ -->
+<div id="sec-oslo" class="section">
+  <div class="section-title"><span class="dot" style="background:var(--oslo)"></span>Oslo — 14–15 Mar</div>
+  <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">2 nights · Scandic Byporten · Adjacent to Oslo Central Station</p>
+  <!-- reused day cards will show via JS filter -->
+  <div id="oslo-days"></div>
+</div>
+
+<div id="sec-lofoten" class="section">
+  <div class="section-title"><span class="dot" style="background:var(--lofoten)"></span>Lofoten Islands — 16–17 Mar</div>
+  <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">2 nights · M&R Lofoten Apartment · Rental car</p>
+  <div id="lofoten-days"></div>
+</div>
+
+<div id="sec-tromso" class="section">
+  <div class="section-title"><span class="dot" style="background:var(--tromso)"></span>Tromsø — 18–20 Mar</div>
+  <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">3 nights · Tromso City Center Vervet</p>
+  <div id="tromso-days"></div>
+</div>
+
+<div id="sec-rovaniemi" class="section">
+  <div class="section-title"><span class="dot" style="background:var(--rovaniemi)"></span>Rovaniemi — 21 Mar + 24–25 Mar</div>
+  <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Aurora Hill Resort (1 night) + Forenom Apartments (2 nights)</p>
+  <div id="rovaniemi-days"></div>
+</div>
+
+<div id="sec-levi" class="section">
+  <div class="section-title"><span class="dot" style="background:var(--levi)"></span>Levi — 22–23 Mar</div>
+  <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">2 nights · Hotel Hullu Poro · Ski Resort</p>
+  <div id="levi-days"></div>
+</div>
+
+<div id="sec-helsinki" class="section">
+  <div class="section-title"><span class="dot" style="background:var(--helsinki)"></span>Helsinki — 26–27 Mar</div>
+  <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">2 nights · Hotel TBD</p>
+  <div id="helsinki-days"></div>
+</div>
+
+<!-- ══════════════ BOOKINGS SUMMARY ══════════════ -->
+<div id="sec-bookings" class="section">
+  <div class="section-title">🗂 All Bookings Summary</div>
+  <div class="summary-grid">
+
+    <div class="sum-card">
+      <h3>✈️ FLIGHTS</h3>
+      <div class="sum-row"><span class="sr-label">HKG→ZRH→OSL</span><span class="sr-val">13–14 Mar<br><span class="sr-ref">LX139 + LX1210</span></span></div>
+      <div class="sum-row"><span class="sr-label">OSL→EVE (Lofoten)</span><span class="sr-val">16 Mar 08:55<br><span class="sr-ref">ZQNK6R · NOK 3,166/2</span></span></div>
+      <div class="sum-row"><span class="sr-label">EVE→ANX→TOS (Tromsø)</span><span class="sr-val">18 Mar 14:40<br><span class="sr-ref">X8OA2L · NOK 1,696/2</span></span></div>
+      <div class="sum-row"><span class="sr-label">TOS→RVN (Rovaniemi)</span><span class="sr-val">21 Mar 10:10<br><span class="sr-ref">9VUXZA · NOK 4,020/2</span></span></div>
+      <div class="sum-row"><span class="sr-label">RVN→HEL (Helsinki)</span><span class="sr-val">26 Mar 21:45<br><span class="sr-ref">7FKX23 · €162.32/2</span></span></div>
+      <div class="sum-row"><span class="sr-label">HEL→FRA→HKG</span><span class="sr-val">28 Mar 17:55<br><span class="sr-ref">LH851 + LH796</span></span></div>
+    </div>
+
+    <div class="sum-card">
+      <h3>🏨 HOTELS</h3>
+      <div class="sum-row"><span class="sr-label">Scandic Byporten (Oslo)</span><span class="sr-val">14–16 Mar<br><span class="sr-ref">Annie · Agoda · HKD $2,345</span></span></div>
+      <div class="sum-row"><span class="sr-label">M&R Lofoten Apt</span><span class="sr-val">16–18 Mar<br><span class="sr-ref">Annie · Agoda · HKD $2,421</span></span></div>
+      <div class="sum-row"><span class="sr-label">Vervet Tromsø</span><span class="sr-val">18–21 Mar<br><span class="sr-ref">Annie · Agoda · HKD $4,358</span></span></div>
+      <div class="sum-row"><span class="sr-label">Aurora Hill Resort (RVN)</span><span class="sr-val">21–22 Mar<br><span class="sr-ref">Annie · Agoda #1696368486</span></span></div>
+      <div class="sum-row"><span class="sr-label">Hotel Hullu Poro (Levi)</span><span class="sr-val">22–24 Mar<br><span class="sr-ref">Annie · Trip.com · HKD $5,317</span></span></div>
+      <div class="sum-row"><span class="sr-label">Forenom Apts (RVN)</span><span class="sr-val">24–26 Mar<br><span class="sr-ref">Harry · Trip.com · ⚠️ No cancel</span></span></div>
+      <div class="sum-row"><span class="sr-label">Helsinki Hotel</span><span class="sr-val">26–28 Mar<br><span class="sr-ref" style="color:#f87171;">⚠️ NOT YET BOOKED</span></span></div>
+    </div>
+
+    <div class="sum-card">
+      <h3>🚗 TRANSPORT &amp; GROUND</h3>
+      <div class="sum-row"><span class="sr-label">Rental Car (Lofoten)</span><span class="sr-val">16–18 Mar<br><span class="sr-ref">Rentalcars.com #746310730 · HKD $3,568</span></span></div>
+      <div class="sum-row"><span class="sr-label">Bus RVN→Levi</span><span class="sr-val">22 Mar 09:15<br><span class="sr-ref">Matkahuolto #8145547</span></span></div>
+      <div class="sum-row"><span class="sr-label">Bus Levi→RVN</span><span class="sr-val">24 Mar 09:50<br><span class="sr-ref">Matkahuolto · HKD $130–290/pp</span></span></div>
+      <div class="sum-row"><span class="sr-label">Oslo Airport Express</span><span class="sr-val">16 Mar early<br><span class="sr-ref">Flytoget from Oslo S · 20 min</span></span></div>
+    </div>
+
+    <div class="sum-card">
+      <h3>⚠️ ACTION ITEMS</h3>
+      <div class="sum-row" style="color:#f87171;"><span class="sr-label">Book Helsinki hotel</span><span class="sr-val">26–28 Mar<br><span class="sr-ref">Near Central Station recommended</span></span></div>
+      <div class="sum-row" style="color:#ffd97d;"><span class="sr-label">Book whale watching</span><span class="sr-val">Tromsø 19–20 Mar<br><span class="sr-ref">Pre-book recommended</span></span></div>
+      <div class="sum-row" style="color:#ffd97d;"><span class="sr-label">Book Korouoma tour</span><span class="sr-val">Rovaniemi 25 Mar<br><span class="sr-ref">visitrovaniemi.fi</span></span></div>
+      <div class="sum-row" style="color:#ffd97d;"><span class="sr-label">Book Levi ski rental</span><span class="sr-val">22–23 Mar<br><span class="sr-ref">Advance booking saves time</span></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ TIPS ══════════════ -->
+<div id="sec-tips" class="section">
+  <div class="section-title">💡 Travel Tips &amp; Aurora Info</div>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <h3>🌌 Aurora Chasing Apps</h3>
+      <ul>
+        <li><a href="https://www.swpc.noaa.gov/products/aurora-30-minute-forecast" target="_blank">NOAA Aurora 30-Min Forecast Map</a></li>
+        <li>My Aurora Forecast &amp; Alerts (App Store)</li>
+        <li><a href="https://apps.apple.com/de/app/northern-lights-photo-taker/id979540312" target="_blank">Northern Lights Photo Taker app</a></li>
+        <li>NightCap Pro (long exposure photography)</li>
+      </ul>
+    </div>
+    <div class="tip-card">
+      <h3>🌌 Best Aurora Spots</h3>
+      <ul>
+        <li>Tromsø: Telegrafbukta, Prestvannet Lake</li>
+        <li>Rovaniemi: Aurora Hill Resort hilltop</li>
+        <li>Levi: Fell slopes after midnight</li>
+        <li>Need: Clear sky, KP index ≥ 2, dark location</li>
+      </ul>
+    </div>
+    <div class="tip-card">
+      <h3>⏰ Time Zones</h3>
+      <p>Norway (CET) = HKT − 7 hrs<br>Finland (EET) = HKT − 6 hrs<br><strong>+1 hour when you cross into Finland on 21 Mar.</strong></p>
+    </div>
+    <div class="tip-card">
+      <h3>💰 Currency</h3>
+      <ul>
+        <li>Norway 🇳🇴 — NOK (Norwegian Krone)</li>
+        <li>Finland 🇫🇮 — EUR (Euro)</li>
+        <li>Cards widely accepted everywhere</li>
+        <li>Oslo &amp; Helsinki are cashless-friendly</li>
+      </ul>
+    </div>
+    <div class="tip-card">
+      <h3>🧥 Packing Essentials</h3>
+      <ul>
+        <li>Thermal base layers (merino wool)</li>
+        <li>Waterproof outer layer</li>
+        <li>Insulated boots (−20°C rated)</li>
+        <li>Hand warmers, balaclava, ski goggles</li>
+        <li>Microspikes for icy paths</li>
+      </ul>
+    </div>
+    <div class="tip-card">
+      <h3>🚌 Getting Around</h3>
+      <ul>
+        <li>Oslo: Tram + Metro (Ruter app)</li>
+        <li>Lofoten: Rental car essential</li>
+        <li>Tromsø: Walking + local bus</li>
+        <li>Rovaniemi/Levi: Bus (Matkahuolto app)</li>
+        <li>Helsinki: Tram + Metro (HSL app)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div><!-- end main -->
+
+<script>
+  function switchTab(dest) {
+    // Update tab buttons
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    const btns = document.querySelectorAll('.tab-btn');
+    const tabMap = {all:0,oslo:1,lofoten:2,tromso:3,rovaniemi:4,levi:5,helsinki:6,bookings:7,tips:8};
+    if (tabMap[dest] !== undefined) btns[tabMap[dest]].classList.add('active');
+
+    // Show/hide sections
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+
+    if (dest === 'all') {
+      document.getElementById('sec-all').classList.add('active');
+    } else if (dest === 'bookings') {
+      document.getElementById('sec-bookings').classList.add('active');
+    } else if (dest === 'tips') {
+      document.getElementById('sec-tips').classList.add('active');
+    } else {
+      const secId = 'sec-' + dest;
+      const sec = document.getElementById(secId);
+      if (sec) {
+        sec.classList.add('active');
+        // Clone relevant day cards from main timeline
+        const container = document.getElementById(dest + '-days');
+        if (container && container.children.length === 0) {
+          const cards = document.querySelectorAll('#sec-all .day-card[data-dest="' + dest + '"]');
+          cards.forEach(card => {
+            const clone = card.cloneNode(true);
+            clone.addEventListener('click', function() { toggleDay(this); });
+            container.appendChild(clone);
+          });
+        }
+      }
+    }
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  function toggleDay(card) {
+    card.classList.toggle('open');
+  }
+
+  // Open today's or next upcoming day automatically
+  window.addEventListener('DOMContentLoaded', () => {
+    // Open first two days by default for a nice first impression
+    const cards = document.querySelectorAll('#sec-all .day-card');
+    if (cards[1]) cards[1].classList.add('open'); // Day 14/3 arrival
+  });
+</script>
+</body>
+</html>
